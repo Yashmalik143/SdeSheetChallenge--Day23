@@ -1,0 +1,49 @@
+/************************************************************
+
+    Following is the Tree node structure
+	
+	template <typename T>
+    class TreeNode 
+    {
+        public : 
+        T val;
+        TreeNode<T> *left;
+        TreeNode<T> *right;
+
+        TreeNode(T val) 
+        {
+            this -> val = val;
+            left = NULL;
+            right = NULL;
+        }
+    };
+
+************************************************************/
+#include<bits/stdc++.h>
+
+int count;
+long long int func(TreeNode<int> *root,long long int &maxi,int &count)
+{
+    if(!root) return 0;
+     if(root -> left == NULL && root -> right == NULL) count++;
+    long long int lh= func(root->left,maxi,count);
+    long long int rh = func(root->right,maxi,count);
+    
+    long long int temp=max(lh,rh)+root->val;
+    long long int mx=max(temp, lh+rh+root->val);
+    
+    maxi = max(maxi,mx);
+    
+    return temp;
+}
+long long int findMaxSumPath(TreeNode<int> *root)
+{
+    // Write your code here.
+     if(root == NULL) return -1;
+    long long int maxi = 0;
+   int count=0;
+     func(root,maxi,count);
+     
+    if(count==1)return -1;
+    return maxi;
+}
